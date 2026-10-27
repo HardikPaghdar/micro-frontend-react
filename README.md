@@ -1,33 +1,38 @@
-# React in Vue - Module Federation Demo
+# React in Vue — Module Federation Demo
 
-This demo is a simple proof of concept approach for fetching a React component from a _"remote"_ React app and mounting it within a Vue _"host"_ app using module federation.
+A proof-of-concept that loads a React component from a remote React application and mounts it inside a Vue host application using Webpack Module Federation.
 
-The Vue app fetches and renders a **React button which can be used to increment a counter controlled by Vue**. The button text can be manipulated via a text input and it can also be unmounted/mounted using a checkbox.
+The remote exposes a React button that increments a counter controlled by the Vue host. The demo also lets you change the button label and mount/unmount the component, illustrating cross-framework communication and lifecycle handling.
 
-This illusatrates that the approach used allows communication to-and-fro Vue and React, as well as correctly handling React lifecycle hooks when the host app unmounts the parent component.
+## Run locally
 
----
+Requirements: Node.js and Yarn compatible with the project's lockfile.
 
-## Running
+```bash
+yarn install
+yarn start
+```
 
-Install dependencies
+The workspace starts two development servers:
 
-`yarn`
+- Vue host (`layout`): [http://localhost:3001](http://localhost:3001)
+- React remote (`home`): [http://localhost:3002](http://localhost:3002)
 
-Then run development servers with
+## End-to-end tests
 
-`yarn start`
+The original project documents Cypress commands:
 
-This will build and serve both `home` and `layout` on ports `3002` and `3001` respectively.
+- `npm run cypress:debug` — interactive Cypress runner
+- `yarn e2e:ci` — build and run the configured end-to-end suite headlessly
 
-- Host (layout, Vue app): [localhost:3001](http://localhost:3001/)
-- Remote (home, React app): [localhost:3002](http://localhost:3002/)
+Check the scripts in `package.json` if the commands differ in your current branch.
 
-# Running Cypress E2E Tests
+## What this demonstrates
 
-To run tests in interactive mode, run  `npm run cypress:debug` from the root directory of the project. It will open Cypress Test Runner and allow to run tests in interactive mode. [More info about "How to run tests"](../../cypress/README.md#how-to-run-tests)
+- Loading a federated remote component inside a different framework
+- Passing interaction/state between Vue and React
+- Handling component mount/unmount lifecycle
 
-To build app and run test in headless mode, run `yarn e2e:ci`. It will build app and run tests for this workspace in headless mode. If tets failed cypress will create `cypress` directory in sample root folder with screenshots and videos.
+## Limitations
 
-["Best Practices, Rules amd more interesting information here](../../cypress/README.md)
-# micro-frontend-react
+This is a proof-of-concept, not a complete micro-frontend platform. For production, add remote-load failure handling, explicit shared dependency/version policy, deployment versioning, and tests for unavailable remotes.
